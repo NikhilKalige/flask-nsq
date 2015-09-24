@@ -1,5 +1,5 @@
 ===============================
-Flask NSQ
+Flask-NSQ
 ===============================
 
 .. image:: https://img.shields.io/travis/nikhilkalige/flask-nsq.svg

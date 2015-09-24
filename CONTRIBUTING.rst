@@ -36,8 +36,8 @@ is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-Flask NSQ could always use more documentation, whether as part of the
-official Flask NSQ docs, in docstrings, or even on the web in blog posts,
+Flask-NSQ could always use more documentation, whether as part of the
+official Flask-NSQ docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
