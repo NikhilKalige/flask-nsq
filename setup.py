@@ -23,7 +23,7 @@ test_requirements = [
 ]
 
 setup(
-    name='flask-nsq',
+    name='Flask-NSQ',
     version='0.1.0',
     description="Adds NSQ support for your Flask application",
     long_description=readme + '\n\n' + history,
@@ -37,13 +37,13 @@ setup(
                  'flask-nsq'},
     include_package_data=True,
     install_requires=requirements,
-    license="ISCL",
+    license="MIT",
     zip_safe=False,
     keywords='flask-nsq',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: ISC License (ISCL)',
+        'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.6',

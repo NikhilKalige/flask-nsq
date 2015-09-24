@@ -11,7 +11,7 @@ Flask-NSQ
 
 Adds NSQ support for your Flask application
 
-* Free software: ISC license
+* Free software: MIT license
 * Documentation: https://flask-nsq.readthedocs.org.
 
 Features
