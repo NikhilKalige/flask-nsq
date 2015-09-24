@@ -10,10 +10,10 @@ Tests for `flask-nsq` module.
 
 import unittest
 
-from flask-nsq import flask-nsq
+from flask_nsq import flask_nsq
 
 
-class TestFlask-nsq(unittest.TestCase):
+class TestFlaskNSQ(unittest.TestCase):
 
     def setUp(self):
         pass
