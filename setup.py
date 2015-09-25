@@ -14,13 +14,6 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
-requirements = [
-    'Flask',
-    'gnsq',
-    'pynsq'
-]
-
-
 setup(
     name='Flask-NSQ',
     version='0.1.0',
@@ -35,7 +28,7 @@ setup(
     package_dir={'flask_nsq':
                  'flask_nsq'},
     include_package_data=True,
-    install_requires=requirements,
+    install_requires=[],
     license="MIT",
     zip_safe=False,
     keywords='flask-nsq',
