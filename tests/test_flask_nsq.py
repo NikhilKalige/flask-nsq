@@ -9,18 +9,40 @@ Tests for `flask-nsq` module.
 """
 
 import pytest
-from flask_nsq import flask_nsq
+from flask_nsq import Nsq
+from flask import Flask
+from integration_server import NsqdIntegrationServer
+from gnsq import protocol as nsq
+from gnsq import states, errors
 
 
-class TestFlaskNSQ(object):
+def test_unset_clientlibrary():
+    app = Flask(__name__)
+    with pytest.raises(Exception):
+        Nsq(app)
 
-    @classmethod
-    def setup_class(cls):
-        pass
 
-    def test_something(self):
-        pass
+@pytest.fixture(scope='function')
+def flaskapp():
+    app = Flask(__name__)
+    app.config['NSQ_CLIENT_TYPE'] = 'gnsq'
+    return app
 
-    @classmethod
-    def teardown_class(cls):
-        pass
+
+def test_daemon_connection(flaskapp):
+    print flaskapp.config['NSQ_CLIENT_TYPE']
+    with NsqdIntegrationServer() as server:
+        config = {
+            'address': server.address,
+            'http_port': server.http_port
+        }
+
+        client = Nsq(flaskapp, config)
+        client.daemon.connect()
+        assert client.daemon.state == states.CONNECTED
+
+        client.daemon.close()
+        frame, error = client.daemon.read_response()
+        assert frame == nsq.FRAME_TYPE_ERROR
+        assert isinstance(error, errors.NSQInvalid)
+
