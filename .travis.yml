@@ -7,8 +7,15 @@ python:
   - "3.3"
   - "2.7"
 
+env:
+  - NSQ_VERSION=0.3.5 GO_VERSION=1.4.2
+
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -r requirements.txt
+install:
+  - pip install -r requirements.txt
+  - wget https://s3.amazonaws.com/bitly-downloads/nsq/nsq-$NSQ_VERSION.linux-amd64.go$GO_VERSION.tar.gz
+  - tar zxvf nsq-$NSQ_VERSION.linux-amd64.go$GO_VERSION.tar.gz
+  - sudo cp nsq-$NSQ_VERSION.linux-amd64.go$GO_VERSION/bin/nsqd nsq-$NSQ_VERSION.linux-amd64.go$GO_VERSION/bin/nsqlookupd /usr/local/bin
 
 # command to run tests, e.g. python setup.py test
 script: py.test
