@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from werkzeug.datastructures import ImmutableDict
 from flask import current_app
-import importlib
 import imp
 
 
-class NSQ(object):
+class Nsq(object):
     default_config = ImmutableDict({
         'NSQ_CLIENT_TYPE': None,
         'NSQ_ADDRESS': 'localhost',
@@ -15,23 +14,23 @@ class NSQ(object):
 
     supported_clients = ['gnsq', 'pynsq']
 
-    def __init__(self, app=None, daemon_config=None):
+    def __init__(self, app=None, daemon_config={}):
         self.app = app
         if app is not None:
             self.init_app(app, daemon_config)
 
-    def init_app(self, app):
-        for key, value in self.default_config:
+    def init_app(self, app, daemon_config={}):
+        for key, value in self.default_config.iteritems():
             app.config.setdefault(key, value)
 
-        if app.config['CLIENT_TYPE'] not in self.supported_clients:
+        if app.config['NSQ_CLIENT_TYPE'] not in self.supported_clients:
             raise Exception('Invalid NSQ client library, valid values are %s, %s' % (
                 self.supported_clients[0], self.supported_clients[1]))
 
-        if app.config['CLIENT_TYPE'] == 'gnsq':
-            client = GNSQ()
-        elif app.config['CLIENT_TYPE'] == 'pynsq':
-            client = PYNSQ
+        if app.config['NSQ_CLIENT_TYPE'] == 'gnsq':
+            client = Gnsq()
+        elif app.config['NSQ_CLIENT_TYPE'] == 'pynsq':
+            client = Pynsq()
 
         # setup a new connection to the daemon
         daemon = client.daemon(app.config['NSQ_ADDRESS'], app.config['NSQ_DAEMON_PORT'],
@@ -54,11 +53,13 @@ class NSQ(object):
         app = self.app or current_app
         return app.extensions['nsq']['daemon']
 
-    def create_reader(self, topic, channel, reader_config):
+    def create_reader(self, topic, channel, reader_config={}):
         app = self.app or current_app
         reader = self.client.reader(app.config['NSQ_ADDRESS'],
                                     app.config['NSQ_READER_PORT'],
                                     topic, channel, reader_config)
+        self._store_reader(topic, channel, reader)
+        return reader
 
     def _store_reader(self, topic, channel, reader):
         ext = (self.app or current_app).extensions['nsq']
@@ -72,7 +73,7 @@ class NSQ(object):
         return ext[topic][channel]
 
 
-class NSQClient(object):
+class NsqClient(object):
     def __init__(self, client_name):
         # check of existense of client
         try:
@@ -81,13 +82,13 @@ class NSQClient(object):
             raise Exception('Unable to find NSQ client library %s' % (client_name))
 
 
-class GNSQ(NSQClient):
+class Gnsq(NsqClient):
     def __init__(self):
-        super(GNSQ, self).__init__('gnsq')
+        super(Gnsq, self).__init__('gnsq')
 
     @classmethod
     def daemon(cls, address, port, daemon_config):
-        import gnsq.Nsqd
+        from gnsq.nsqd import Nsqd
         if daemon_config.get('address'):
             add = daemon_config.pop('address')
         else:
@@ -102,7 +103,7 @@ class GNSQ(NSQClient):
 
     @classmethod
     def reader(cls, address, port, topic, channel, reader_config):
-        import gnsq.Reader
+        from gnsq.reader import Reader
         if reader_config.get('nsqd_tcp_addresses'):
             add = reader_config.pop('nsqd_tcp_addresses')
         else:
@@ -110,6 +111,6 @@ class GNSQ(NSQClient):
         return Reader(topic, channel, add, reader_config)
 
 
-class PYNSQ(NSQClient):
+class Pynsq(NsqClient):
     def __init__(self):
-        super(GNSQ, self).__init__('nsq')
+        super(Pynsq, self).__init__('nsq')
