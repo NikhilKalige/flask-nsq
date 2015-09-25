@@ -76,8 +76,6 @@ Ready to contribute? Here's how to set up `flask-nsq` for local development.
 
 5. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox::
 
-    $ flake8 flask-nsq tests
-    $ python setup.py test
     $ tox
 
    To get flake8 and tox, just pip install them into your virtualenv.
@@ -108,4 +106,4 @@ Tips
 
 To run a subset of tests::
 
-    $ python -m unittest tests.test_flask-nsq
+    $ py.test tests/test_flask_nsq.py

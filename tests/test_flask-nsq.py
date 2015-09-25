@@ -8,18 +8,19 @@ test_flask-nsq
 Tests for `flask-nsq` module.
 """
 
-import unittest
-
+import pytest
 from flask_nsq import flask_nsq
 
 
-class TestFlaskNSQ(unittest.TestCase):
+class TestFlaskNSQ(object):
 
-    def setUp(self):
+    @classmethod
+    def setup_class(cls):
         pass
 
     def test_something(self):
         pass
 
-    def tearDown(self):
+    @classmethod
+    def teardown_class(cls):
         pass
