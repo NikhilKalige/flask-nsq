@@ -15,7 +15,9 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 requirements = [
-    # TODO: put package requirements here
+    'Flask',
+    'gnsq',
+    'pynsq'
 ]
 
 test_requirements = [
