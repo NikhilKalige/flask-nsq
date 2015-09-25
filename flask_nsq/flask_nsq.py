@@ -98,7 +98,6 @@ class Gnsq(NsqClient):
             p = daemon_config.pop('http_port')
         else:
             p = port
-
         return Nsqd(add, http_port=p, **daemon_config)
 
     @classmethod
@@ -108,7 +107,7 @@ class Gnsq(NsqClient):
             add = reader_config.pop('nsqd_tcp_addresses')
         else:
             add = '%s:%s' % (address, port)
-        return Reader(topic, channel, add, reader_config)
+        return Reader(topic, channel, add, **reader_config)
 
 
 class Pynsq(NsqClient):
