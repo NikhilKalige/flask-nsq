@@ -11,7 +11,7 @@ Tests for `flask-nsq` module.
 import pytest
 from flask_nsq import Nsq
 from flask import Flask
-from integration_server import NsqdIntegrationServer
+from .integration_server import NsqdIntegrationServer
 from gnsq import protocol as nsq
 from gnsq import states, errors
 
