@@ -1,4 +1,7 @@
-Flask
+# Install gnsq itself
+-e .
+
+# Install our development requirements
 gnsq
 pynsq
 bumpversion==0.5.3

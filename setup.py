@@ -28,7 +28,9 @@ setup(
     package_dir={'flask_nsq':
                  'flask_nsq'},
     include_package_data=True,
-    install_requires=[],
+    install_requires=[
+        'Flask'
+    ],
     license="MIT",
     zip_safe=False,
     keywords='flask-nsq',
