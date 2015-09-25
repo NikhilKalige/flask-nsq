@@ -33,10 +33,10 @@ setup(
     author_email='nikhilkalige@gmail.com',
     url='https://github.com/nikhilkalige/flask-nsq',
     packages=[
-        'flask-nsq',
+        'flask_nsq',
     ],
-    package_dir={'flask-nsq':
-                 'flask-nsq'},
+    package_dir={'flask_nsq':
+                 'flask_nsq'},
     include_package_data=True,
     install_requires=requirements,
     license="MIT",
