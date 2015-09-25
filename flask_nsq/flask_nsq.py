@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from werkzeug.datastructures import ImmutableDict
+from flask import current_app
 import importlib
 import imp
 
@@ -77,7 +78,7 @@ class NSQClient(object):
         try:
             imp.find_module(client_name)
         except Exception:
-            raise Exception('Unable to find NSQ client library %s', % (client_name))
+            raise Exception('Unable to find NSQ client library %s' % (client_name))
 
 
 class GNSQ(NSQClient):
@@ -87,17 +88,17 @@ class GNSQ(NSQClient):
     @classmethod
     def daemon(cls, address, port, daemon_config):
         import gnsq.Nsqd
-        if kwargs.get('address'):
-            add = kwargs.pop('address')
+        if daemon_config.get('address'):
+            add = daemon_config.pop('address')
         else:
             add = address
 
-        if kwargs.get('http_port'):
-            p = kwargs.pop('http_port')
+        if daemon_config.get('http_port'):
+            p = daemon_config.pop('http_port')
         else:
             p = port
 
-        return Nsqd(add, http_port=pt, **kwargs)
+        return Nsqd(add, http_port=p, **daemon_config)
 
     @classmethod
     def reader(cls, address, port, topic, channel, reader_config):
